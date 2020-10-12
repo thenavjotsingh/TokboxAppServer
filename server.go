@@ -1,13 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 )
 
 func getHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/hello" {
+	if r.URL.Path != "/get" {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
@@ -20,7 +21,13 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "server started!!!")
 
 	token := createToken()
-	createSession(token)
+	respSession := createSession(token)
+	w.WriteHeader(http.StatusOK)
+	w.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(respSession)
+
+	// fmt.Fprintf(w, respSession)
+
 }
 
 func main() {

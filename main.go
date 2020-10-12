@@ -26,8 +26,8 @@ func createToken() string {
 	// Create the Claims
 	claims := &jwt.StandardClaims{
 		Issuer:    apiKey,
-		IssuedAt:  1602486301,
-		ExpiresAt: 1602521084,
+		IssuedAt:  1602501799,
+		ExpiresAt: 1602528905,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -36,7 +36,7 @@ func createToken() string {
 	return tokenString
 }
 
-func createSession(token string) {
+func createSession(token string) string {
 	client := &http.Client{}
 	var data = strings.NewReader(`$datastr`)
 	req, err := http.NewRequest("POST", "https://api.opentok.com/session/create", data)
@@ -55,5 +55,8 @@ func createSession(token string) {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s\n", bodyText)
+	respstring := string(bodyText)
+	fmt.Println(respstring)
+	return respstring
 
 }
